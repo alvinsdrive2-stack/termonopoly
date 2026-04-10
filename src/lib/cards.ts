@@ -28,7 +28,7 @@ export const KESEMPATAN_CARDS: Card[] = [
   { id: 'ks-2', type: 'kesempatan', title: 'Orang Dalam', description: 'Langsung ke Istana Pusat Kota.', effect: { type: 'moveTo', position: 39, collectSalary: true } },
   { id: 'ks-3', type: 'kesempatan', title: 'Ghosting', description: 'Mundur 3 langkah.', effect: { type: 'moveBackward', steps: 3 } },
   { id: 'ks-4', type: 'kesempatan', title: 'Macet Total', description: 'Skip 1 putaran.', effect: { type: 'skipTurns', turns: 1 } },
-  { id: 'ks-5', type: 'kesempatan', title: 'Investasi Bodong', description: 'Rugi besar!', effect: { type: 'loseMoney', amount: 1000000 } },
+  { id: 'ks-5', type: 'kesempatan', title: 'Investasi Bodong', description: 'Rugi besar!', effect: { type: 'loseMoney', amount: 750000 } },
   { id: 'ks-6', type: 'kesempatan', title: 'War Tiket', description: 'Bayar Rp1.5 Juta atau mundur ke START.', effect: { type: 'payOrMove', amount: 1500000, position: 0 } },
   { id: 'ks-7', type: 'kesempatan', title: 'Promosi Jabatan', description: 'Maju ke petak kosong terdekat & beli.', effect: { type: 'nearestEmpty', buy: true } },
   { id: 'ks-8', type: 'kesempatan', title: 'Salah Gg. Sempit', description: 'Tukar posisi dengan pemain terakhir.', effect: { type: 'swapPosition' } },

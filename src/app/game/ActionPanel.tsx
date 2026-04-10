@@ -268,7 +268,9 @@ export default function ActionPanel() {
 
       if (isDouble) {
         incrementDoubles();
-        if (doublesCount + 1 >= 3) {
+        // Read fresh doublesCount from store to avoid stale closure
+        const freshDoubles = useGameStore.getState().doublesCount;
+        if (freshDoubles >= 3) {
           addLog(turnNumber, currentPlayer.id, `🚔 ${currentPlayer.name} 3x double! Masuk penjara!`);
           jailPlayer(currentPlayer.id);
           resetDoubles();
@@ -374,9 +376,10 @@ export default function ActionPanel() {
     const p = updatedPlayers.find((p) => p.id === currentPlayer.id);
     if (p && p.money < 0) {
       // Force sell properties to cover debt
-      while (p.properties.length > 0 && usePlayerStore.getState().players.find((pp) => pp.id === currentPlayer.id)!.money < 0) {
-        const freshP = usePlayerStore.getState().players.find((pp) => pp.id === currentPlayer.id)!;
-        if (freshP.properties.length === 0) break;
+      let safety = 0;
+      while (safety++ < 40) {
+        const freshP = usePlayerStore.getState().players.find((pp) => pp.id === currentPlayer.id);
+        if (!freshP || freshP.properties.length === 0 || freshP.money >= 0) break;
         const lastProp = freshP.properties[freshP.properties.length - 1];
         const tile = TILES.find((t) => t.id === lastProp);
         const sellPrice = Math.floor((tile?.price ?? 0) / 2);
@@ -422,8 +425,8 @@ export default function ActionPanel() {
     // Role passives
     const playerRole = ROLES.find((r) => r.id === currentPlayer.roleId);
     if (playerRole?.id === 'creator' && (tile.colorGroup === 'red' || tile.colorGroup === 'yellow')) rent = Math.floor(rent * 0.75);
-    if (playerRole?.id === 'aktivis' && level === 5) {
-      addLog(turnNumber, currentPlayer.id, `🛡️ ${currentPlayer.name} kebal sewa hotel! (Ancaman Viralin)`);
+    if (playerRole?.id === 'aktivis' && level >= 3) {
+      addLog(turnNumber, currentPlayer.id, `🛡️ ${currentPlayer.name} kebal sewa! Level ${level} diambil alih (Ancaman Viralin)`);
       setPhase('done'); return;
     }
     if (playerRole?.id === 'rt' && (tile.colorGroup === 'brown' || tile.colorGroup === 'lightBlue')) {
@@ -459,6 +462,18 @@ export default function ActionPanel() {
         if (winner) { setWinner(winner); return; }
         endTurn();
         return;
+      }
+    }
+
+    // Ketua RT passive: kalau orang mendarat di properti RT, RT dapat Rp50rb
+    if (['property', 'transport', 'utility'].includes(tile.category)) {
+      const owner = tileOwners[tileId];
+      if (owner) {
+        const ownerPlayer = usePlayerStore.getState().players.find((p) => p.id === owner);
+        if (ownerPlayer && ownerPlayer.roleId === 'rt' && owner !== currentPlayer.id) {
+          changeMoney(ownerPlayer.id, 50000, 'Pendapatan RT');
+          addLog(turnNumber, ownerPlayer.id, `🏘️ ${ownerPlayer.name} (Ketua RT) dapat Rp50rb dari ${currentPlayer.name} yang mendarat di propertinya`);
+        }
       }
     }
 
@@ -515,7 +530,7 @@ export default function ActionPanel() {
         if (!noSalaryMod) {
           const role = ROLES.find((r) => r.id === cp?.roleId);
           let salaryBonus = 0;
-          if (role?.id === 'olshop') salaryBonus = 300000;
+          if (role?.id === 'olshop') salaryBonus = 200000;
           const salary = getSalary() + salaryBonus;
           changeMoney(currentPlayer.id, salary, 'Gaji START');
           addLog(turnNumber, currentPlayer.id, `💰 ${currentPlayer.name} lewat START! +${formatMoney(salary)}`);

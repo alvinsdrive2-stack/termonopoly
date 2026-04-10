@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
       { pathname: "/tiles/**", search: "" },
       { pathname: "/bidak/**", search: "" },
       { pathname: "/charselect/**", search: "" },
+      { pathname: "/kartu/**", search: "" },
       { pathname: "/main.png", search: "" },
     ],
   },

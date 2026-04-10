@@ -31,7 +31,7 @@ export const ROLES: Role[] = [
     name: 'Admin Olshop',
     nickname: 'The Fast Response',
     description: 'Respon cepat, uang banyak.',
-    passive: 'Tambahan Rp300rb di START.',
+    passive: 'Tambahan Rp200rb di START.',
     debuff: 'Kena denda Rp100rb jika masuk Dana Umum.',
     color: '#8B5CF6',
   },
@@ -40,7 +40,7 @@ export const ROLES: Role[] = [
     name: 'Ketua RT',
     nickname: 'The Local Leader',
     description: 'Bapak RT yang berkuasa.',
-    passive: 'Bebas sewa di petak Cokelat & Light Blue milik lawan.',
+    passive: 'Bebas sewa di petak Cokelat & Light Blue milik lawan. Dapat Rp50rb jika orang mendarat di propertimu.',
     color: '#10B981',
   },
   {
@@ -65,7 +65,7 @@ export const ROLES: Role[] = [
     name: 'Aktivis Sosmed',
     nickname: 'The Canceller',
     description: 'Ancaman viralin selalu ampuh.',
-    passive: 'Berhenti di Hotel lawan? Tidak perlu bayar (Ancaman Viralin).',
+    passive: 'Bebas sewa di properti lawan yang level 3 ke atas (Ancaman Viralin).',
     color: '#EF4444',
   },
   {

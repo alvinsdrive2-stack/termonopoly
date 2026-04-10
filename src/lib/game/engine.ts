@@ -12,6 +12,7 @@ export function calculateRent(
   hasMonopoly: boolean
 ): number {
   if (tile.category === 'transport') {
+    if (ownerPlayerCount.transport === 0) return 0;
     const counts = [250000, 500000, 1000000, 2000000];
     return counts[Math.min(ownerPlayerCount.transport - 1, 3)];
   }

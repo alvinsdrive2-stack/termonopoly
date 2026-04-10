@@ -48,15 +48,23 @@ function getCardEffectInfo(effect: CardEffect) {
 }
 
 // ===== CARD POPUP =====
+function getCardImagePath(card: { type: 'danaUmum' | 'kesempatan'; id?: string }): string {
+  if (!card.id) return '';
+  const num = card.id.replace(/^(du|ks)-/, '');
+  const folder = card.type === 'danaUmum' ? 'dana%20umum' : 'kesempatan';
+  return `/kartu/${folder}/${num}.png`;
+}
+
 function CardPopup({
   card,
   onOk,
 }: {
-  card: { type: 'danaUmum' | 'kesempatan'; title: string; description: string; effect: CardEffect };
+  card: { id: string; type: 'danaUmum' | 'kesempatan'; title: string; description: string; effect: CardEffect };
   onOk: () => void;
 }) {
   const isDanaUmum = card.type === 'danaUmum';
   const effectInfo = getCardEffectInfo(card.effect);
+  const cardImagePath = getCardImagePath(card);
 
   return (
     <motion.div className="fixed inset-0 bg-lada/60 flex items-center justify-center z-50 p-4" variants={overlayVariants} initial="hidden" animate="visible" exit="exit">
@@ -75,14 +83,16 @@ function CardPopup({
 
         {/* Content */}
         <div className="p-6 text-center">
-          {/* Icon */}
+          {/* Card Image */}
           <motion.div
-            className="text-7xl mb-3"
+            className="mb-3 flex justify-center"
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ type: 'spring', stiffness: 200, damping: 12, delay: 0.2 }}
           >
-            {effectInfo.icon}
+            <div className="w-48 rounded-lg overflow-hidden border-2 border-lada/20 shadow-md">
+              <Image src={cardImagePath} alt={card.title} width={192} height={192} className="w-full h-full object-contain" />
+            </div>
           </motion.div>
 
           {/* Title */}
