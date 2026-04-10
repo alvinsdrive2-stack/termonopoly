@@ -1,0 +1,203 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: #F5F5DC;
+  --color-foreground: #2F2F2F;
+  --color-merah: #C41E3A;
+  --color-kunyit: #D4A017;
+  --color-daun: #228B22;
+  --color-garam: #F5F5DC;
+  --color-lada: #2F2F2F;
+  --color-sambal: #DC143C;
+  --color-jeruk: #FF8C00;
+  --color-kemiri: #8B4513;
+  --color-kelapa: #FFF8DC;
+  --color-teh: #D2691E;
+  --color-pandan: #4CAF50;
+  --color-gula: #FFD700;
+  --color-kopi: #6F4E37;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+}
+
+/* Board tile colors */
+.tile-brown { background-color: #92400E; }
+.tile-lightBlue { background-color: #7DD3FC; }
+.tile-pink { background-color: #F472B6; }
+.tile-orange { background-color: #FB923C; }
+.tile-red { background-color: #EF4444; }
+.tile-yellow { background-color: #FACC15; }
+.tile-green { background-color: #4ADE80; }
+.tile-darkBlue { background-color: #1E40AF; }
+.tile-transport { background-color: #6B7280; }
+.tile-utility { background-color: #A78BFA; }
+.tile-tax { background-color: #F87171; }
+.tile-corner { background-color: #FDE047; }
+.tile-card { background-color: #67E8F9; }
+
+/* Retro button style */
+.btn-retro {
+  border: 2px solid #2F2F2F;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.1s;
+  box-shadow: 3px 3px 0 0 rgba(47,47,47,0.4);
+}
+.btn-retro:hover {
+  box-shadow: 1px 1px 0 0 rgba(47,47,47,0.4);
+  transform: translate(2px, 2px);
+}
+.btn-retro:active {
+  box-shadow: none;
+  transform: translate(3px, 3px);
+}
+
+/* Retro card style */
+.card-retro {
+  border: 2px solid #2F2F2F;
+  border-radius: 8px;
+  box-shadow: 3px 3px 0 0 rgba(47,47,47,0.3);
+}
+
+/* Player token */
+.player-token {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #2F2F2F;
+  position: absolute;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+/* Board grid - all cells match tile image aspect ratio (330x237 landscape) */
+.board-grid {
+  display: grid;
+  grid-template-columns: repeat(11, 330fr);
+  grid-template-rows: repeat(11, 237fr);
+  gap: 1px;
+  flex-shrink: 0;
+}
+
+/* Board tile */
+.board-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(47,47,47,0.15);
+  border-radius: 3px;
+  text-align: center;
+  cursor: default;
+  overflow: hidden;
+  padding: 1px;
+  min-height: 0;
+  position: relative;
+}
+
+.board-tile-corner {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px;
+}
+
+.board-tile-side {
+  font-size: 10px;
+}
+
+/* Side tiles */
+.board-tile-left {
+}
+.board-tile-right {
+}
+.board-tile-top {
+}
+.board-tile-bottom {
+}
+
+/* Animation keyframes */
+@keyframes float-up {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -40px) scale(1.2);
+  }
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: translate(-50%, 0) scale(0);
+  }
+  50% {
+    transform: translate(-50%, -20px) scale(1.1);
+  }
+  100% {
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 5px currentColor;
+  }
+  50% {
+    box-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
+  }
+}
+
+@keyframes spin-in {
+  0% {
+    transform: rotate(-180deg) scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: rotate(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Utility animation classes */
+.animate-float-up {
+  animation: float-up 1s ease-out forwards;
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.5s ease-out;
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+.animate-glow {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+.animate-spin-in {
+  animation: spin-in 0.6s ease-out;
+}
+
+/* Smooth transitions for bidak movement */
+.bidak-smooth-move {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Money change text animation */
+.money-change {
+  animation: float-up 2s ease-out forwards;
+}
